@@ -50,7 +50,7 @@ end
 
 figure;
 whitefig;
-figpos([0.88 1])
+figpos([1 1])
 
 %% proj
 gx = geoaxes;
@@ -63,17 +63,18 @@ grid off
 
 
 GridWidth = 0.5
+PlotLim = 210
 hold on
-geoplot([0 0], [-190 190], 'Color', [0.5 0.5 0.5], 'LineWidth', GridWidth); % 0°
+geoplot([0 0], [-PlotLim PlotLim], 'Color', [0.5 0.5 0.5], 'LineWidth', GridWidth); % 0°
 hold on
-geoplot([30 30], [-190 190], 'Color', [0.5 0.5 0.5], 'LineWidth', GridWidth); % 30°
+geoplot([30 30], [-PlotLim PlotLim], 'Color', [0.5 0.5 0.5], 'LineWidth', GridWidth); % 30°
 hold on
-geoplot([60 60], [-190 190], 'Color', [0.5 0.5 0.5], 'LineWidth', GridWidth); % 60°
+geoplot([60 60], [-PlotLim PlotLim], 'Color', [0.5 0.5 0.5], 'LineWidth', GridWidth); % 60°
 
 hold on
-geoplot([-30 -30], [-190 190], 'Color', [0.5 0.5 0.5], 'LineWidth', GridWidth); % 30°
+geoplot([-30 -30], [-PlotLim PlotLim], 'Color', [0.5 0.5 0.5], 'LineWidth', GridWidth); % 30°
 hold on
-geoplot([-60 -60], [-190 190], 'Color', [0.5 0.5 0.5], 'LineWidth', GridWidth); % 60°
+geoplot([-60 -60], [-PlotLim PlotLim], 'Color', [0.5 0.5 0.5], 'LineWidth', GridWidth); % 60°
 
 
 set(gx, 'TickLabelFormat', 'dd')
@@ -132,27 +133,27 @@ for k1=1:length(sites)
     if lons(k1)>0 % longitude in E zone
         if strcmp(string(STs{k1}), 'MCMR')
             hold on;
-            text(lats(k1)+2, lons(k1)-3.001, [string(sites{k1})+' ('+string(STs{k1})+')'], 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor, 'HorizontalAlignment', 'right');
+            text(lats(k1)+2, lons(k1)-3.001, sprintf('%s (%s, %.1f MHz)', sites{k1}, STs{k1}, freqs(k1)), 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor, 'HorizontalAlignment', 'right');
             hold on;
             geoplot(lats(k1), lons(k1), 'r.', 'MarkerSize', 20);
         elseif strcmp(string(STs{k1}), 'SVMR')
             hold on;
-            text(lats(k1)-3, lons(k1), [string(sites{k1})+' ('+string(STs{k1})+')'], 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor, 'HorizontalAlignment', 'center');
+            text(lats(k1)-3, lons(k1), sprintf('%s (%s, %.1f MHz)', sites{k1}, STs{k1}, freqs(k1)), 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor, 'HorizontalAlignment', 'center');
             hold on;
             geoplot(lats(k1), lons(k1), 'r.', 'MarkerSize', 20);
         elseif strcmp(string(STs{k1}), 'DVMR')
             hold on;
-            text(lats(k1)+5, lons(k1), [string(sites{k1})+' ('+string(STs{k1})+')'], 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor, 'HorizontalAlignment', 'center');
+            text(lats(k1)+5, lons(k1), sprintf('%s (%s, %.1f MHz)', sites{k1}, STs{k1}, freqs(k1)), 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor, 'HorizontalAlignment', 'center');
             hold on;
             geoplot(lats(k1), lons(k1), 'r.', 'MarkerSize', 20);
         elseif strcmp(string(STs{k1}), 'BPMR') | strcmp(string(STs{k1}), 'DWMR')
             hold on;
-            text(lats(k1), lons(k1)-3.001, [string(sites{k1})+' ('+string(STs{k1})+')'], 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor, 'HorizontalAlignment', 'right');
+            text(lats(k1), lons(k1)-3.001, sprintf('%s (%s, %.1f MHz)', sites{k1}, STs{k1}, freqs(k1)), 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor, 'HorizontalAlignment', 'right');
             hold on;
             geoplot(lats(k1), lons(k1), 'r.', 'MarkerSize', 20);
         else
             hold on;
-            text(lats(k1), lons(k1)+3.001, [string(sites{k1})+' ('+string(STs{k1})+')'], 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor);
+            text(lats(k1), lons(k1)+3.001, sprintf('%s (%s, %.1f MHz)', sites{k1}, STs{k1}, freqs(k1)), 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor);
             hold on;
             geoplot(lats(k1), lons(k1), 'r.', 'MarkerSize', 20);
         end
@@ -160,12 +161,12 @@ for k1=1:length(sites)
     else
         if strcmp(string(STs{k1}), 'ALOMR') | strcmp(string(STs{k1}), 'ASSMR') | strcmp(string(STs{k1}), 'KEPMR')
             hold on;
-            text(lats(k1), lons(k1)-3.001, [string(sites{k1})+' ('+string(STs{k1})+')'], 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor, 'HorizontalAlignment', 'right');
+            text(lats(k1), lons(k1)-3.001, sprintf('%s (%s, %.1f MHz)', sites{k1}, STs{k1}, freqs(k1)), 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor, 'HorizontalAlignment', 'right');
             hold on;
             geoplot(lats(k1), lons(k1), 'r.', 'MarkerSize', 20);
         else
             hold on;
-            text(lats(k1), lons(k1)+3.001, [string(sites{k1})+' ('+string(STs{k1})+')'], 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor);
+            text(lats(k1), lons(k1)+3.001, sprintf('%s (%s, %.1f MHz)', sites{k1}, STs{k1}, freqs(k1)), 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor);
             hold on;
             geoplot(lats(k1), lons(k1), 'r.', 'MarkerSize', 20);
         end
