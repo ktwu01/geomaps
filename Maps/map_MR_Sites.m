@@ -46,12 +46,12 @@ end
 
 figure;
 whitefig;
-figpos([0.88 1])
+figpos([0.7 1])
 
 %% proj
 gx = geoaxes;
-geolimits([-75 80],[-179.999 179.999]) %LAT, LON
-% geolimits([-80 80],[-179.999 179.999]) %LAT, LON
+% geolimits([-75 80],[-179.999 179.999]) %LAT, LON
+geolimits([-90 90],[-179.999 179.999]) %LAT, LON
 % geobasemap colorterrain
 % geobasemap landcover
 geobasemap satellite
