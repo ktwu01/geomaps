@@ -2,7 +2,9 @@
 
 
 
-% Map_V8_1
+% font 都改成times new roman
+% 在0，30, 60纬度度加一下虚线
+
 
 clear all; close all; clc
 addpath 'D:\0lrn\00Res\Functions'
@@ -14,7 +16,9 @@ baseFilename = 'A0_Stations_Para_';
 WKT_runLatestVersion(directoryPath, baseFilename);
 load('D:\0lrn\00Res\Data\MR_Stations_Para.mat');
 
-fsz = [10 13];
+fsz = [12 13];
+MRFontColor = 'yellow';
+
 for k1 = 1: length(STs)
     if strcmp(string(STs{k1}), 'MCMR') || ...
             strcmp(string(STs{k1}), 'ALOMR') || ...
@@ -46,24 +50,41 @@ end
 
 figure;
 whitefig;
-figpos([0.7 1])
+figpos([0.88 1])
 
 %% proj
 gx = geoaxes;
-% geolimits([-75 80],[-179.999 179.999]) %LAT, LON
-geolimits([-90 90],[-179.999 179.999]) %LAT, LON
+geolimits([-75 80], [-179.999 179.999]) %LAT, LON
+% geolimits([-80 80], [-179.999 179.999]) %LAT, LON
 % geobasemap colorterrain
 % geobasemap landcover
 geobasemap satellite
+grid off
 
-set(gx,'TickLabelFormat','dd')
-% set(gx,'TickDir','out')
+
+GridWidth = 0.5
+hold on
+geoplot([0 0], [-190 190], 'Color', [0.5 0.5 0.5], 'LineWidth', GridWidth); % 0°
+hold on
+geoplot([30 30], [-190 190], 'Color', [0.5 0.5 0.5], 'LineWidth', GridWidth); % 30°
+hold on
+geoplot([60 60], [-190 190], 'Color', [0.5 0.5 0.5], 'LineWidth', GridWidth); % 60°
+
+hold on
+geoplot([-30 -30], [-190 190], 'Color', [0.5 0.5 0.5], 'LineWidth', GridWidth); % 30°
+hold on
+geoplot([-60 -60], [-190 190], 'Color', [0.5 0.5 0.5], 'LineWidth', GridWidth); % 60°
+
+
+set(gx, 'TickLabelFormat', 'dd')
+gx.FontName =  'Times New Roman';
+gx.FontSize =  fsz(1);
+% gx.LatitudeLabel.FontName = 'Times New Roman';
+% gx.LongitudeLabel.FontSize = fsz(1);
+% set(gx, 'TickDir', 'out')
 % gx.TickLabelFormat = 'dd';
 gx.LongitudeLabel.String = 'Geographic Longitude';
 gx.LatitudeLabel.String  = 'Geographic Latitude';
-
-grid off
-MRFontColor = 'yellow';
 
 if(0)
     %% TG Volcano
@@ -96,10 +117,10 @@ if(0)
     end
 
     %% Meteor radars Great Circle distance from TG
-    dist = zeros(length(sites),1);
+    dist = zeros(length(sites), 1);
     N = 1000; % N greater, the more precise
     for k1=1:length(sites)
-        [dist(k1),~,~] = m_lldist([TGlon lons(k1)], [TGlat lats(k1)],N);
+        [dist(k1), ~, ~] = m_lldist([TGlon lons(k1)], [TGlat lats(k1)], N);
     end
 
     % % % % % % % [string(sites{k1})+' ('+string(STs{k1})+', '+num2str(freqs(k1))+' MHz)']
@@ -111,42 +132,42 @@ for k1=1:length(sites)
     if lons(k1)>0 % longitude in E zone
         if strcmp(string(STs{k1}), 'MCMR')
             hold on;
-            text(lats(k1)+2, lons(k1)-3.001, [string(sites{k1})+' ('+string(STs{k1})+')'],'FontSize',fsz(1),'FontWeight','bold','Color', MRFontColor,'HorizontalAlignment', 'right');
+            text(lats(k1)+2, lons(k1)-3.001, [string(sites{k1})+' ('+string(STs{k1})+')'], 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor, 'HorizontalAlignment', 'right');
             hold on;
-            geoplot(lats(k1), lons(k1), 'r.','MarkerSize',20);
+            geoplot(lats(k1), lons(k1), 'r.', 'MarkerSize', 20);
         elseif strcmp(string(STs{k1}), 'SVMR')
             hold on;
-            text(lats(k1)-3, lons(k1), [string(sites{k1})+' ('+string(STs{k1})+')'],'FontSize',fsz(1),'FontWeight','bold','Color',MRFontColor,'HorizontalAlignment', 'center');
+            text(lats(k1)-3, lons(k1), [string(sites{k1})+' ('+string(STs{k1})+')'], 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor, 'HorizontalAlignment', 'center');
             hold on;
-            geoplot(lats(k1), lons(k1), 'r.','MarkerSize',20);
+            geoplot(lats(k1), lons(k1), 'r.', 'MarkerSize', 20);
         elseif strcmp(string(STs{k1}), 'DVMR')
             hold on;
-            text(lats(k1)+5, lons(k1), [string(sites{k1})+' ('+string(STs{k1})+')'],'FontSize',fsz(1),'FontWeight','bold','Color',MRFontColor,'HorizontalAlignment', 'center');
+            text(lats(k1)+5, lons(k1), [string(sites{k1})+' ('+string(STs{k1})+')'], 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor, 'HorizontalAlignment', 'center');
             hold on;
-            geoplot(lats(k1), lons(k1), 'r.','MarkerSize',20);
+            geoplot(lats(k1), lons(k1), 'r.', 'MarkerSize', 20);
         elseif strcmp(string(STs{k1}), 'BPMR') | strcmp(string(STs{k1}), 'DWMR')
             hold on;
-            text(lats(k1), lons(k1)-3.001, [string(sites{k1})+' ('+string(STs{k1})+')'],'FontSize',fsz(1),'FontWeight','bold','Color', MRFontColor,'HorizontalAlignment', 'right');
+            text(lats(k1), lons(k1)-3.001, [string(sites{k1})+' ('+string(STs{k1})+')'], 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor, 'HorizontalAlignment', 'right');
             hold on;
-            geoplot(lats(k1), lons(k1), 'r.','MarkerSize',20);
+            geoplot(lats(k1), lons(k1), 'r.', 'MarkerSize', 20);
         else
             hold on;
-            text(lats(k1), lons(k1)+3.001, [string(sites{k1})+' ('+string(STs{k1})+')'],'FontSize',fsz(1),'FontWeight','bold','Color', MRFontColor);
+            text(lats(k1), lons(k1)+3.001, [string(sites{k1})+' ('+string(STs{k1})+')'], 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor);
             hold on;
-            geoplot(lats(k1), lons(k1), 'r.','MarkerSize',20);
+            geoplot(lats(k1), lons(k1), 'r.', 'MarkerSize', 20);
         end
 
     else
         if strcmp(string(STs{k1}), 'ALOMR') | strcmp(string(STs{k1}), 'ASSMR') | strcmp(string(STs{k1}), 'KEPMR')
             hold on;
-            text(lats(k1), lons(k1)-3.001, [string(sites{k1})+' ('+string(STs{k1})+')'],'FontSize',fsz(1),'FontWeight','bold','Color', MRFontColor,'HorizontalAlignment', 'right');
+            text(lats(k1), lons(k1)-3.001, [string(sites{k1})+' ('+string(STs{k1})+')'], 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor, 'HorizontalAlignment', 'right');
             hold on;
-            geoplot(lats(k1), lons(k1), 'r.','MarkerSize',20);
+            geoplot(lats(k1), lons(k1), 'r.', 'MarkerSize', 20);
         else
             hold on;
-            text(lats(k1), lons(k1)+3.001, [string(sites{k1})+' ('+string(STs{k1})+')'],'FontSize',fsz(1),'FontWeight','bold','Color', MRFontColor);
+            text(lats(k1), lons(k1)+3.001, [string(sites{k1})+' ('+string(STs{k1})+')'], 'FontSize', fsz(1), 'FontName', 'Times New Roman', 'FontWeight', 'bold', 'Color', MRFontColor);
             hold on;
-            geoplot(lats(k1), lons(k1), 'r.','MarkerSize',20);
+            geoplot(lats(k1), lons(k1), 'r.', 'MarkerSize', 20);
         end
     end
 end
@@ -156,19 +177,19 @@ error;
 %% EXPORT FIG ==============================================================
 % Set renderer to "painters"
 set(gcf, 'Renderer', 'painters');
-print(gcf,['Map_-75_+80'],'-dpng','-r600');
+print(gcf, ['Map_-75_+80'], '-dpng', '-r600');
 disp('Figure Saved.');
 
 
-function [dist,lons,lats] = m_lldist(long,lat,N)
+function [dist, lons, lats] = m_lldist(long, lat, N)
 % M_LLDIST Spherical earth distance between points in long/lat coordinates.
-%   RANGE=M_LLDIST(LONG,LAT) gives the distance in kilometers between
+%   RANGE=M_LLDIST(LONG, LAT) gives the distance in kilometers between
 %   successive points in the vectors LONG and LAT, computed
 %   using the Haversine formula on a spherical earth of radius
 %   6378.137km. Distances are probably good to better than 1% of the
 %   "true" distance on the ellipsoidal earth
 %
-%   [RANGE,LONGS,LATS]=M_LLDIST(LONG,LAT,N) computes the N-point geodesics
+%   [RANGE, LONGS, LATS]=M_LLDIST(LONG, LAT, N) computes the N-point geodesics
 %   between successive points. Each geodesic is returned on its
 %   own row of length N+1.
 %
@@ -188,10 +209,10 @@ earth_radius=6378.137;
 
 m=length(long)-1;
 
-long1=reshape(long(1:end-1),m,1)*pi180;
-long2=reshape(long(2:end)  ,m,1)*pi180;
-lat1= reshape(lat(1:end-1) ,m,1)*pi180;
-lat2= reshape(lat(2:end)   ,m,1)*pi180;
+long1=reshape(long(1:end-1), m, 1)*pi180;
+long2=reshape(long(2:end)  , m, 1)*pi180;
+lat1= reshape(lat(1:end-1) , m, 1)*pi180;
+lat2= reshape(lat(2:end)   , m, 1)*pi180;
 
 dlon = long2 - long1;
 dlat = lat2 - lat1;
@@ -202,24 +223,24 @@ dist = earth_radius * angles;
 
 if nargin==3 && nargout>1   % Compute geodesics.
 
-    % Cartesian unit vectors in rows of v1,v2
+    % Cartesian unit vectors in rows of v1, v2
     v1=[cos(long1).*cos(lat1)   sin(long1).*cos(lat1)   sin(lat1) ];
     v2=[cos(long2).*cos(lat2)   sin(long2).*cos(lat2)   sin(lat2) ];
 
     % We want to get a unit vector tangent to the great circle.
-    n1=cross(v1,v2,2);
-    t1=cross(n1,v1,2);
-    t1=t1./repmat(sqrt(sum(t1.^2,2)),1,3);
+    n1=cross(v1, v2, 2);
+    t1=cross(n1, v1, 2);
+    t1=t1./repmat(sqrt(sum(t1.^2, 2)), 1, 3);
 
-    lons=zeros(m,N+1);
-    lats=zeros(m,N+1);
+    lons=zeros(m, N+1);
+    lats=zeros(m, N+1);
     for k=1:m
 
         % Radials for all points
-        p1=v1(k,:)'*cos(angles(k)*[0:N]/N) + t1(k,:)'*sin(angles(k)*[0:N]/N);
+        p1=v1(k, :)'*cos(angles(k)*[0:N]/N) + t1(k, :)'*sin(angles(k)*[0:N]/N);
 
-        lons(k,:)=atan2(p1(2,:),p1(1,:))/pi180;
-        lats(k,:)=asin(p1(3,:))/pi180;
+        lons(k, :)=atan2(p1(2, :), p1(1, :))/pi180;
+        lats(k, :)=asin(p1(3, :))/pi180;
 
     end
 
