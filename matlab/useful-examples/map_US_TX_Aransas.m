@@ -48,7 +48,7 @@ centerLat = 27.9798;
 centerLon = -97.0287;
 
 % Define map area sizes in meters (for square maps)
-map_sizes_m = [90, 200, 1000, 10000]; 
+map_sizes_m = [200, 1000, 5000, 1000]; 
 
 % Define the output directory
 output_dir = 'tx-aransas';
