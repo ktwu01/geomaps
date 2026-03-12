@@ -113,14 +113,14 @@ LAND    = cfeature.NaturalEarthFeature("physical", "land", "50m",
 
 
 def _base(ax):
-    """Apply CONUS extent + standard features."""
+    """Apply CONUS extent + standard features including topography background."""
     ax.set_extent([LON_W, LON_E, LAT_S, LAT_N], crs=DATA_CRS)
-    ax.add_feature(OCEAN)
-    ax.add_feature(LAND)
-    ax.add_feature(LAKES)
-    ax.add_feature(RIVERS)
-    ax.add_feature(STATES)
-    ax.add_feature(BORDERS)
+    ax.stock_img()                          # Natural Earth 1:50m shaded relief
+    ax.add_feature(OCEAN, zorder=2)
+    ax.add_feature(LAKES, zorder=3)
+    ax.add_feature(RIVERS, zorder=3)
+    ax.add_feature(STATES, zorder=4)
+    ax.add_feature(BORDERS, zorder=4)
     ax.spines["geo"].set_linewidth(0.8)
 
 
@@ -138,12 +138,6 @@ def panel_topography(ax):
     ax.add_feature(STATES, zorder=4)
     ax.add_feature(BORDERS, zorder=4)
     ax.spines["geo"].set_linewidth(0.8)
-
-    # CONUS domain bounding box
-    lons = [LON_W, LON_E, LON_E, LON_W, LON_W]
-    lats = [LAT_S, LAT_S, LAT_N, LAT_N, LAT_S]
-    ax.plot(lons, lats, transform=DATA_CRS,
-            color="#d62728", linewidth=1.4, linestyle="--", zorder=5)
 
     ax.set_title("(a) CONUS simulation domain", fontsize=9,
                  fontweight="bold", pad=4)
@@ -371,18 +365,14 @@ def _grace_grid(ax, lon_step=3.0, lat_step=3.0):
 def panel_smap_grace(ax):
     _base(ax)
 
-    # SMAP: shade CONUS land with distinct blue — schematic coverage indicator
+    # SMAP: semi-transparent blue overlay on land — schematic coverage indicator
     smap_fill = cfeature.NaturalEarthFeature("physical", "land", "50m",
                                               facecolor="#5aade4",
                                               edgecolor="none")
-    ax.add_feature(smap_fill, alpha=0.45, zorder=3)
+    ax.add_feature(smap_fill, alpha=0.35, zorder=5)
 
     # GRACE mascon grid (schematic 3° scale)
     _grace_grid(ax)
-
-    # Re-draw borders on top
-    ax.add_feature(STATES, zorder=6)
-    ax.add_feature(BORDERS, zorder=6)
 
     smap_patch = mpatches.Patch(facecolor="#5aade4", alpha=0.6,
                                  edgecolor="#2278b5", linewidth=0.8,
